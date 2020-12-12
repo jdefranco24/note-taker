@@ -8,7 +8,7 @@ const fs = require("fs");
 // creating an "express" server
 const app = express();
 // Sets an Initial port for listeners
-const PORT = process.env.PORT || 9001;
+const PORT = process.env.PORT || 3000;
 
 //  Initialize notesData
 
@@ -18,6 +18,9 @@ let notesData = [];
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "Develop/public")));
+app.use("/api", apiRoutes);
+app.use("/", htmlRoutes);
+app.listen(PORT, () => console.log(`Listening on PORT: ${PORT}`));
 
 // routes
 
