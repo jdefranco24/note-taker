@@ -1,11 +1,12 @@
 const router = require("express").Router();
 const store = require("../db/store");
+const fs = require("fs");
 // var data = JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
 
 
-module.exports = function(app) {
 
-    router.get("/notes", (req, res) => {
+
+    router.get("/api/notes", (req, res) => {
         store
             .getNotes()
             .then((notes)=> res.json(notes))
@@ -19,7 +20,7 @@ module.exports = function(app) {
     });
 
 
-    router.post("/notes", function(req, res) {
+    router.post("/api/notes", function(req, res) {
         store.addNote(req.body).then((note) => res.json(note));            
 
     });
@@ -30,6 +31,7 @@ module.exports = function(app) {
         let noteId = req.params.id;
         let newId = 0;
         console.log(`Deleting note with id ${noteId}`);
+        let data = fs.readFileSync("./db/db.json", "utf8");
         data = data.filter(currentNote => {
             return currentNote.id != noteId;
         });
@@ -41,4 +43,4 @@ module.exports = function(app) {
         res.json(data);
     }); 
 
-}
+module.exports = router;
